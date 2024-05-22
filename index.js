@@ -12,7 +12,7 @@ mongoose.connect(process.env.MONGO_URL,{
 })
 
 const UrlSchema = new mongoose.Schema({
-  orignal_url : {
+  original_url : {
     type: String,
     required: true,
     unique: true
@@ -47,7 +47,7 @@ app.get('/api/hello', function(req, res) {
 app.get('/api/shorturl/:short_url',(req,res)=>{
   let short_url = req.params.short_url;
   UrlModel.findOne({short_url}).then((data)=>{
-    res.redirect(data.orignal_url)
+    res.redirect(data.original_url)
   })
 })
 
@@ -63,7 +63,7 @@ app.post('/api/shorturl',(req,res)=>{
         })
       }
       else{
-        let orignal_url = urlObj.href;
+        let original_url = urlObj.href;
         
         UrlModel.find({}).sort({
           short_url : -1
@@ -72,7 +72,7 @@ app.post('/api/shorturl',(req,res)=>{
           if(data.length >0)
             short_url = parseInt(data[0].short_url) +1
           resObj = {
-            orignal_url,short_url
+            original_url,short_url
           }
               
           let newUrl = new UrlModel(resObj)
